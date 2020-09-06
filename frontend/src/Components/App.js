@@ -8,18 +8,27 @@ import WritePostPage from './Views/WritePost/WritePostPage.js';
 import Header from './Views/Common/Header.js';
 import Footer from './Views/Common/Footer.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col } from 'react-bootstrap'
+import UploadImage from './Views/UploadImage/UploadImage';
 
 function App() {
   return (
     <div>
       <Header />
-      <BrowserRouter>
-        <Switch>
-         <Route exact path="/write" component={WritePostPage} />
-          <Route exact path="/" component={PostPage} />
-          <Route exact path="/:postId" component={PostPage} />
-        </Switch>
-      </BrowserRouter>
+      <Container>
+        <Row>
+          <Col>
+            <BrowserRouter>
+              <Switch>
+                <Route exact path="/upload" component={UploadImage} />
+                <Route exact path="/write" component={WritePostPage} />
+                <Route exact path="/" component={PostPage} />
+                <Route exact path="/:postId" component={PostPage} />
+              </Switch>
+            </BrowserRouter>
+          </Col>
+        </Row>
+      </Container>
       <Footer />
     </div>
   );

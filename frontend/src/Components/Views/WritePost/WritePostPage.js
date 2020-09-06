@@ -1,16 +1,15 @@
 import React, {useState} from 'react'
 import axios from 'axios'
+import {Form, Button} from 'react-bootstrap'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function WritePostPage(props) {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
-
+   
     const onTitleChange = (e) => {
         setTitle(e.currentTarget.value)
-    }
-
-    const onContentChange = (e) => {
-        setContent(e.currentTarget.value)
     }
 
     const onSubmit = (e) => {
@@ -37,16 +36,18 @@ function WritePostPage(props) {
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                <label>제목</label>
-                <input onChange={onTitleChange} value={title} />
-                <br/>
-                <label>내용</label>
-                <textarea onChange={onContentChange} value={content} />
-                <br/>
-                <button onClick={onSubmit}>작성</button>
+            <Form onSubmit={onSubmit}>
+                <Form.Group controlId="formTitle">
+                    <Form.Label>제목</Form.Label>
+                    <Form.Control type="title" placeholder="제목을 입력하세요." onChange={onTitleChange} value={title}></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="formContent">
+                    <Form.Label>내용</Form.Label>
+                    <ReactQuill theme="snow" value={content} onChange={setContent} placeholder='내용을 입력하세요.'/>
+                </Form.Group>
+                <Button variant="primary" onClick={onSubmit}>작성</Button>
                     
-            </form>
+            </Form>
         </div>
     )
 }

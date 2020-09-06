@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from 'react'
 import axios from 'axios'
 import SinglePost from './SinglePost'
+import { Container } from 'react-bootstrap'
 
 
 function PostPage(props) {
@@ -35,9 +36,11 @@ function PostPage(props) {
 
     return (
         <div>
-            {Posts.map((post, index) => (
-                <SinglePost key={index} id={post.id} title={post.title} content={post.content} single={Single} />
-            ))}
+            <Container>
+                {Posts.map((post, index) => (
+                    <SinglePost key={index} id={post.id} title={post.title} content={post.content} single={Single} />
+                ))}
+            </Container>
         </div>
     )
 }
