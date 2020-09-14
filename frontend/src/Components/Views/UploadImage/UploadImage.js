@@ -20,20 +20,26 @@ function UploadImage() {
             let formData = new FormData();
 
             const imageData = {
-                imageName: imageName
+                'imageName': imageName
             }
 
-            formData.append("data", imageData);
+            formData.append("data",  
+            new Blob([JSON.stringify(imageData)], {
+                type: 'application/json'
+            }));
             formData.append("file", image);
+            
 
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
+            // const config = {
+            //     headers: {
+            //         'content-type': 'multipart/form-data'
+            //     }
+            // }
+
+            console.log(formData)
          
             
-            axios.post('http://localhost:5000/api/image', formData, config)
+            axios.post('http://localhost:5000/api/image', formData)
             .then(response => {
                 console.log(response)
             })

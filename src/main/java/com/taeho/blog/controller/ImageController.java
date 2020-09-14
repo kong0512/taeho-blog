@@ -16,7 +16,7 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public String uploadImage(@RequestParam("data") ImageRequest imageRequest, @RequestParam("file") MultipartFile multipartFile) {
+    public String uploadImage(@RequestPart("data") ImageRequest imageRequest, @RequestPart("file") MultipartFile multipartFile) {
         try {
 
             imageService.uploadImage(multipartFile, imageRequest.getImageName());
