@@ -1,9 +1,12 @@
 package com.taeho.blog.domain;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -19,5 +22,9 @@ public class Post {
     @Column(name="content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    
+    @CreationTimestamp
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
 }

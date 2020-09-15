@@ -28,23 +28,36 @@ public class ImageService {
 
     public boolean uploadImage(MultipartFile image, String imageName) throws IOException
     {
-        String finalImageName = imageName + "." + FilenameUtils.getExtension(image.getOriginalFilename());
+        String extension = FilenameUtils.getExtension(image.getOriginalFilename());
+        String finalImageName = imageName + "." + extension;
 
         awsS3.putObject(new PutObjectRequest(bucket, finalImageName, image.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
         String imageURI = awsS3.getUrl(bucket, finalImageName).toString();
 
-        addImageData(imageName, imageURI);
+        addImageData(imageName, extension, imageURI);
 
         return true;
     }
 
-    public void addImageData(String imageName, String imageURI){
+    public void addImageData(String imageName, String imageType, String imageURI){
         Image image = new Image();
         image.setImageName(imageName);
+        image.setImageType(imageType);
         image.setImageURI(imageURI);
 
         imageRepository.save(image);
+    }
+
+    public boolean deleteImage(Long id) {
+        Image image = imageRepository.findById(id).get();
+        String key = image.getImageName() + "." + image.getImageType();
+
+        awsS3.deleteObject(bucket, key);
+
+        imageRepository.deleteById(id);
+
+        return true;
     }
 }
