@@ -10,6 +10,8 @@ import Footer from './Views/Common/Footer.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap'
 import UploadImage from './Views/UploadImage/UploadImage';
+import ImageView from './Views/ImageView/ImageView';
+import Login from './Views/Login/Login';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Col>
             <BrowserRouter>
               <Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/image" component={ImageView} />
                 <Route exact path="/upload" component={UploadImage} />
                 <Route exact path="/write" component={WritePostPage} />
                 <Route exact path="/" component={PostPage} />

@@ -8,10 +8,10 @@ function SinglePost(props) {
     }, [])
 
     return (
-        <div class="post">
+        <div className="post">
             <h1><a href={`/${props.id}`}>{props.title}</a></h1>
             <hr />
-            <div class="content"  dangerouslySetInnerHTML={ {__html: props.content}} />
+            <div className="content"  dangerouslySetInnerHTML={ {__html: props.content}} />
         </div>
     )
 }

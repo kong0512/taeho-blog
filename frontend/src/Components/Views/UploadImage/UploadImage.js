@@ -1,11 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {Form, Button} from 'react-bootstrap'
 
-function UploadImage() {
+function UploadImage(props) {
     const [imageName, setImageName] = useState("")
     const [image, setImage] = useState(undefined)
     const [uImageName, setuImageName] = useState("")
+
+    useEffect(() => {
+        if(!localStorage.getItem('token')){
+            alert('로그인해주세요.')
+            props.history.push('/login')
+        }
+    }, [])
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -36,12 +43,21 @@ function UploadImage() {
             //     }
             // }
 
+            const token = 'Bearer ' + localStorage.getItem('token')
+
+            const header = {
+                headers: {
+                    'Authorization': token
+                }
+            }
+
             console.log(formData)
          
             
-            axios.post('http://localhost:5000/api/image', formData)
+            axios.post('http://localhost:5000/api/image', formData, header)
             .then(response => {
-                console.log(response)
+                alert('업로드가 완료되었습니다.')
+                props.history.push('/')
             })
 
         }

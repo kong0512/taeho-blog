@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import {Form, Button} from 'react-bootstrap'
 import ReactQuill from 'react-quill';
@@ -8,6 +8,13 @@ function WritePostPage(props) {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
    
+    useEffect(() => {
+        if(!localStorage.getItem('token')){
+            alert('로그인해주세요.')
+            props.history.push('/login')
+        }
+    }, [])
+
     const onTitleChange = (e) => {
         setTitle(e.currentTarget.value)
     }
@@ -20,7 +27,15 @@ function WritePostPage(props) {
             content: content
         }
 
-        axios.post('http://localhost:5000/api/post', post)
+        const token = 'Bearer ' + localStorage.getItem('token')
+
+        const header = {
+            headers: {
+                'Authorization': token
+            }
+        }
+
+        axios.post('http://localhost:5000/api/post', post, header)
             .then(response => {
                 console.log(response)
                 if(response.data.success){

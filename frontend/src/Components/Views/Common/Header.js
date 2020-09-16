@@ -3,6 +3,8 @@ import {Nav, Navbar , NavDropdown, Form, FormControl, Button} from 'react-bootst
 
 
 function Header() {
+        
+
     return (
         <div>
           <Navbar bg="light" expand="lg">
@@ -12,6 +14,10 @@ function Header() {
                     <Nav className="mr-auto">
                         <Nav.Link href="/write">Write</Nav.Link>
                         <Nav.Link href="/upload">Upload</Nav.Link>
+                        <Nav.Link href="/login">
+                        {!localStorage.getItem('token') ? 'Login' : 'Logout'}
+                        </Nav.Link>
+                       
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
