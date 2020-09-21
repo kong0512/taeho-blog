@@ -1,5 +1,6 @@
 package com.taeho.blog.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class User {
     private String nickname;
 
     @Column(name="password", nullable = false)
+    @JsonIgnore
     private String password;
 
 }

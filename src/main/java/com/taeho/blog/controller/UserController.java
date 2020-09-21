@@ -2,6 +2,7 @@ package com.taeho.blog.controller;
 
 import com.taeho.blog.payload.JwtRequest;
 import com.taeho.blog.payload.JwtResponse;
+import com.taeho.blog.payload.UserRequest;
 import com.taeho.blog.security.JwtTokenUtil;
 import com.taeho.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,10 @@ public class UserController {
         }catch(BadCredentialsException e){
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    @PostMapping("/api/user/join")
+    public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest){
+        return ResponseEntity.ok(userService.save(userRequest));
     }
 }

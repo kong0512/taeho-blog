@@ -1,11 +1,13 @@
 package com.taeho.blog.service;
 
+import com.taeho.blog.domain.User;
+import com.taeho.blog.payload.UserRequest;
 import com.taeho.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,15 +15,27 @@ import java.util.ArrayList;
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        userRepository.findByEmail(email);
-        if(email.equals("admin")) {
-            return new User("admin", "$2a$10$QaBiSxs18/G3zQf4QpsgtukWeDxRYJ3Xnl4Cyl3GuLKy4DbJXhm..", new ArrayList<>());
-        }else{
+        User user = userRepository.findByEmail(email).get();
+
+        if(user == null){
             throw new UsernameNotFoundException("User not found with username: " + email);
         }
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
+    }
+
+    public User save(UserRequest userRequest){
+        User newUser = new User();
+        newUser.setEmail(userRequest.getEmail());
+        newUser.setNickname(userRequest.getNickname());
+        newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        return userRepository.save(newUser);
     }
 }
